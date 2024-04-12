@@ -1,0 +1,15 @@
+D:\Codes\Moulinette_ICS\MoulinetteApp\bin\Debug\MoulinetteApp.exe.config
+D:\Codes\Moulinette_ICS\MoulinetteApp\bin\Debug\MoulinetteApp.exe
+D:\Codes\Moulinette_ICS\MoulinetteApp\bin\Debug\MoulinetteApp.pdb
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.csproj.AssemblyReference.cache
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MainWindow.g.cs
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\App.g.cs
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp_MarkupCompile.cache
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp_MarkupCompile.lref
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MainWindow.baml
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.g.resources
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.Properties.Resources.resources
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.csproj.GenerateResource.cache
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.csproj.CoreCompileInputs.cache
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.exe
+D:\Codes\Moulinette_ICS\MoulinetteApp\obj\Debug\MoulinetteApp.pdb

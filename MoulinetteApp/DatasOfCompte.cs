@@ -12,5 +12,10 @@ namespace NMoulinetteApp
             this.compte = compte ?? throw new ArgumentNullException(nameof(compte));
             this.compteLibellé = compteLibellé ?? throw new ArgumentNullException(nameof(compteLibellé));
         }
+
+        public override string ToString()
+        {
+            return compte + " - " + compteLibellé;
+        }
     }
 }
