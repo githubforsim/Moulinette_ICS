@@ -44,12 +44,14 @@ namespace NMoulinetteApp
                     debit_credit = components[8],
                 };
 
-                var dateReformatée = ligneBrute.dateDePièce.Substring(0, 2)
-                    + "/" + ligneBrute.dateDePièce.Substring(2, 2)
-                    + "/20" + ligneBrute.dateDePièce.Substring(4, 2)
+                // Il faut formatter les dates à l'anglosaxonne (mois/jour/année) afin
+                // que l'outil de création de fichier excel les reconnaisse
+                var dateReformatée = ligneBrute.dateDePièce.Substring(2, 2) // mois
+                    + "/" + ligneBrute.dateDePièce.Substring(0, 2) // jour
+                    + "/" + ligneBrute.dateDePièce.Substring(4, 2) // année
                     ;
 
-                var lineForExcel = new LineOfDatasForExcel()
+                 var lineForExcel = new LineOfDatasForExcel()
                 {
                     numéroDEcriture = ligneBrute.nmrFacture,
                     compte = ligneBrute.compte,

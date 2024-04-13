@@ -9,6 +9,7 @@ namespace NMoulinetteApp
         {
             Excel.Application excelApp = new Excel.Application();
             Excel.Workbook excelWB = excelApp.Workbooks.Add("");
+            //Excel.Workbook excelWB = excelApp.Workbooks.Open("MODELDataFile.xlsx");
             Excel._Worksheet excelWS = excelWB.ActiveSheet;
 
             int idColonne = 1;
@@ -38,9 +39,9 @@ namespace NMoulinetteApp
             excelWS.Columns["E"].HorizontalAlignment = XlHAlign.xlHAlignCenter;
             excelWS.Columns["F"].ColumnWidth = 15;
             excelWS.Columns["F"].HorizontalAlignment = XlHAlign.xlHAlignCenter;
-            excelWS.Columns["H"].ColumnWidth = 15;
-            excelWS.Columns["I"].ColumnWidth = 15;
-            excelWS.Columns["J"].ColumnWidth = 15;
+            excelWS.Columns["H"].ColumnWidth = 10;
+            excelWS.Columns["I"].ColumnWidth = 10;
+            excelWS.Columns["J"].ColumnWidth = 10;
 
             for (int i = 1; i < datas.Length; i++)
             {
@@ -52,7 +53,7 @@ namespace NMoulinetteApp
                 excelWS.Cells[1 + i, idColonne++] = datasOfLine.compteLibellé;
 
                 excelWS.Cells[1 + i, idColonne++] = datasOfLine.dateDePièce;
-                //excelWS.Cells[1 + i, idColonne++].NumberFormat = "DD/MM/YYYY";
+                var t = excelWS.Cells[1 + i, idColonne - 1].Value;
                 excelWS.Cells[1 + i, idColonne++] = datasOfLine.journal;
                 excelWS.Cells[1 + i, idColonne++] = datasOfLine.référence;
                 excelWS.Cells[1 + i, idColonne++] = datasOfLine.ecritureLibellé;
