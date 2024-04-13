@@ -5,67 +5,76 @@ namespace NMoulinetteApp
 {
     internal class FichierTexteReader
     {
-        public static LineOfDatasForExcel[] Read(string textFilePath, string comptesFilePath)
+        public static LineOfDatasForExcel[] Read(string textFilePath, string comptesFilePath, out bool isReadingError)
         {
-            // Récupérer les données du fichier texte décrivant les comptes
-            var datasOfComptes = ReadDatasOfComptes(comptesFilePath);
- 
-            // Récupérer les lignes du fichier texte principal
-            var linesFromTextFile = File.ReadAllLines(textFilePath, System.Text.Encoding.GetEncoding("windows-1252"));
-
-            // Créer un tableau vide qui contiendra les futures lignes du fichier excel
-            var linesForExcel = new List<LineOfDatasForExcel>();
-
-            for (int i = 0; i < linesFromTextFile.Length; i++)
+            try
             {
-                // Récupérer la ième ligne du fichier texte principal
-                string lineFromTextFile = linesFromTextFile[i];
+                // Récupérer les données du fichier texte décrivant les comptes
+                var datasOfComptes = ReadDatasOfComptes(comptesFilePath);
 
-                // Récupérer dans un tableau les éléments de cette ligne, séparés par une virgule
-                var components = lineFromTextFile.Split(',');
-                if (components.Length < 2)
+                // Récupérer les lignes du fichier texte principal
+                var linesFromTextFile = File.ReadAllLines(textFilePath, System.Text.Encoding.GetEncoding("windows-1252"));
+
+                // Créer un tableau vide qui contiendra les futures lignes du fichier excel
+                var linesForExcel = new List<LineOfDatasForExcel>();
+
+                for (int i = 0; i < linesFromTextFile.Length; i++)
                 {
-                    // Si la ligne ne contient pas au moins 2 composants ET que celle ligne
-                    // n'est pas la dernière, alors il y a un GROS SOUCI.
-                    if (i != lineFromTextFile.Length - 1)
+                    // Récupérer la ième ligne du fichier texte principal
+                    string lineFromTextFile = linesFromTextFile[i];
+
+                    // Récupérer dans un tableau les éléments de cette ligne, séparés par une virgule
+                    var components = lineFromTextFile.Split(',');
+                    if (components.Length < 2)
                     {
-                        throw new System.NotImplementedException();
+                        // Si la ligne ne contient pas au moins 2 composants ET que celle ligne
+                        // n'est pas la dernière, alors il y a un GROS SOUCI.
+                        if (i != lineFromTextFile.Length - 1)
+                        {
+                            throw new System.NotImplementedException();
+                        }
+                        break;
                     }
-                    break;
+
+                    var ligneBrute = new LigneBrute()
+                    {
+                        dateDePièce = components[1],
+                        compte = components[3],
+                        ecritureLibellé = ToolForStrings.RemoveGuillemets(components[5]),
+                        nmrFacture = ToolForStrings.RemoveGuillemets(components[6]),
+                        montant = components[7],
+                        debit_credit = components[8],
+                    };
+
+                    // Il faut formatter les dates à l'anglosaxonne (mois/jour/année) afin
+                    // que l'outil de création de fichier excel les reconnaisse
+                    var dateReformatée = ligneBrute.dateDePièce.Substring(2, 2) // mois
+                        + "/" + ligneBrute.dateDePièce.Substring(0, 2) // jour
+                        + "/" + ligneBrute.dateDePièce.Substring(4, 2) // année
+                        ;
+
+                    var lineForExcel = new LineOfDatasForExcel()
+                    {
+                        numéroDEcriture = ligneBrute.nmrFacture,
+                        compte = ligneBrute.compte,
+                        compteLibellé = GetLibelléOfCompte(ligneBrute.compte, datasOfComptes),
+                        dateDePièce = dateReformatée,
+                        référence = ligneBrute.nmrFacture,
+                        ecritureLibellé = ligneBrute.ecritureLibellé,
+                        débit = ligneBrute.debit_credit == "D" ? ligneBrute.montant : string.Empty,
+                        crédit = ligneBrute.debit_credit == "C" ? ligneBrute.montant : string.Empty,
+                    };
+                    linesForExcel.Add(lineForExcel);
                 }
 
-                var ligneBrute = new LigneBrute()
-                {
-                    dateDePièce = components[1],
-                    compte = components[3],
-                    ecritureLibellé = ToolForStrings.RemoveGuillemets(components[5]),
-                    nmrFacture = ToolForStrings.RemoveGuillemets(components[6]),
-                    montant = components[7],
-                    debit_credit = components[8],
-                };
-
-                // Il faut formatter les dates à l'anglosaxonne (mois/jour/année) afin
-                // que l'outil de création de fichier excel les reconnaisse
-                var dateReformatée = ligneBrute.dateDePièce.Substring(2, 2) // mois
-                    + "/" + ligneBrute.dateDePièce.Substring(0, 2) // jour
-                    + "/" + ligneBrute.dateDePièce.Substring(4, 2) // année
-                    ;
-
-                 var lineForExcel = new LineOfDatasForExcel()
-                {
-                    numéroDEcriture = ligneBrute.nmrFacture,
-                    compte = ligneBrute.compte,
-                    compteLibellé = GetLibelléOfCompte(ligneBrute.compte, datasOfComptes),
-                    dateDePièce = dateReformatée,
-                    référence = ligneBrute.nmrFacture,
-                    ecritureLibellé = ligneBrute.ecritureLibellé,
-                    débit = ligneBrute.debit_credit == "D" ? ligneBrute.montant : string.Empty,
-                    crédit = ligneBrute.debit_credit == "C" ? ligneBrute.montant : string.Empty,
-                };
-                linesForExcel.Add(lineForExcel);
+                isReadingError = false;
+                return linesForExcel.ToArray();
             }
-
-            return linesForExcel.ToArray();
+            catch
+            {
+                isReadingError = true;
+                return null;
+            }
         }
 
         private static string GetLibelléOfCompte(string compte, List<DatasOfCompte> datasOfComptes)

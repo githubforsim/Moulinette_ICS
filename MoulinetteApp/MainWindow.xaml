@@ -5,20 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NMoulinetteApp"
         mc:Ignorable="d"
-        Title="Moulinette comptable" Height="130" Width="300">
+        Title="Moulinette comptable" Height="205" Width="470">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
-                <TextBlock Text="Source :" Width="50"/>
-                <TextBox Name="InputFilename" Text="ecritures.txt" Width="130" />
-                <Button Content="..." Width="25" />
+            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                <TextBlock Text="Source écritures :" FontWeight="Bold" Width="100" TextAlignment="Right" Margin="5, 0, 5, 0"/>
+                <TextBlock Name="EcrituresFilePath" Text="ecritures.txt" Width="300" />
+                <Button Content="..." Name="ChangeEcrituresFilePathBtn" Width="25" Click="OnClick_ChangeEcrituresFile" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10, 10, 0, 0">
-                <TextBlock Text="Cible :" Width="50"/>
-                <TextBox Name="OutputFilename" Text="ImportIncom.xls" Width="130" />
-                <Button Content="..." Width="25" />
+            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                <TextBlock Text="Source comptes :" FontWeight="Bold" Width="100" TextAlignment="Right" Margin="5, 0, 5, 0"/>
+                <TextBlock Name="ComptesFilePath" Text="comptes.txt" Width="300" />
+                <Button Content="..." Name="ChangeComptesFilePathBtn" Width="25" Click="OnClick_ChangeComptesFile" />
             </StackPanel>
-            <Button Content="Convert" Width="80" Margin="20" />
+            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                <TextBlock Text="Cible :" FontWeight="Bold" Width="100" TextAlignment="Right" Margin="5, 0, 5, 0" />
+                <TextBlock Name="TargetFilePath" Text="ImportIncom.xls" Width="300" />
+                <Button Content="..." Name="ChangeTargetFilePathBtn" Width="25" Click="OnClick_ChangeTargetFile"/>
+            </StackPanel>
+            <Button Content="Convert" Name="ConvertBtn" Width="80" Margin="0, 20, 0, 10" Click="OnClick_Convert" />
+            <TextBlock Text="" Name="LogText" Width="300" Margin="0" TextAlignment="Center" />
         </StackPanel>
         
     </Grid>

@@ -1,11 +1,17 @@
 ﻿using Microsoft.Office.Interop.Excel;
+using System;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace NMoulinetteApp
 {
     internal class FichierExcelWriter
     {
-        public static void Create(LineOfDatasForExcel[] datas)
+        public static void Create(
+            LineOfDatasForExcel[] datas, 
+            string targetFilePath,
+            Action<string> display,
+            out bool isWritingError
+            )
         {
             Excel.Application excelApp = new Excel.Application();
             Excel.Workbook excelWB = excelApp.Workbooks.Add("");
@@ -45,6 +51,8 @@ namespace NMoulinetteApp
 
             for (int i = 1; i < datas.Length; i++)
             {
+                display($"Conversion ... {100.0f * (float)i/(float)datas.Length:0} %");
+
                 var datasOfLine = datas[i];
 
                 idColonne = 1;
@@ -65,7 +73,15 @@ namespace NMoulinetteApp
             excelWS.Columns["C"].Autofit();
             excelWS.Columns["G"].Autofit();
 
-            excelWB.SaveAs(@"writeDataFile.xlsx");
+            try
+            {
+                excelWB.SaveAs(targetFilePath);
+                isWritingError = false;
+            }
+            catch
+            {
+                isWritingError = true;
+            }
             excelWB.Close();
             excelApp.Quit();
         }

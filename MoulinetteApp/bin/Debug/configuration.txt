@@ -1,0 +1,3 @@
+LAST_ECRITURES_FILE|D:\ecritures.txt
+LAST_COMPTES_FILE|D:\comptes.txt
+LAST_TARGET_FILE|D:\target.xlsx
